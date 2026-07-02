@@ -33,5 +33,5 @@ def tree_packing(next_box):
                     found = True
                     new_node = TreeNode(next_box[0], next_box[1])
                     nodes.append(new_node)
-                for node in no
+                for node in nodes
 
