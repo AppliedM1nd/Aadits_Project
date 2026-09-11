@@ -2,11 +2,14 @@
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/.venv/.venv1/Scripts" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/.venv/.venv" />
-      <excludeFolder url="file://$MODULE_DIR$/.venv/.venv1" />
+      <sourceFolder url="file://$MODULE_DIR$/.venv_old/.venv1/Scripts" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/.venv_old" />
+      <excludeFolder url="file://$MODULE_DIR$/.venv_old/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/.venv_old/.venv1" />
+      <excludeFolder url="file://$MODULE_DIR$/.venv_old2" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.13 virtualenv at C:\Users\aadlam0809\OneDrive - Highgate School\A LEVEL COMPUTING\Aadit's Project\.venv\.venv (2)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="~\OneDrive - Highgate School\A LEVEL COMPUTING\Aadit's Project\.venv" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

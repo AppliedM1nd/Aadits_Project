@@ -88,11 +88,24 @@ def simulate_failures(node):
     for connection in temp:
         nodes[connection[0]].connections.append(connection[1])
 
+
 def min_spanning_tree(nodes):
     all_connections = []
     for node in nodes.values():
         for node_connection in node.connections:
-            new_connection = (node_connection[0],node.name) 
+            new_connection = (node_connection[0], node.name, node_connection[0])
+            all_connections.append(new_connection)
+
+    for node_name, node in nodes.items():
+        for curr_node in nodes.keys():
+            node_name.remove_connection(curr_node.name)
+    all_connections.sort(key=lambda x: x[2])
+    current_cycle = []
+    all_connected = False
+    index = 0
+    while not all_connected and index < len(all_connections):
+        connection_node1, connection_node2, length = all_connections[index]
+        nodes[connection_node1].add_connection(connection_node2, length)
 
 
 add_node('Router')
@@ -122,5 +135,4 @@ print(R2.connections)
 print(check_devices_connected())
 S2.add_connection('R2', 8)
 print(check_devices_connected())
-
 print(find_disconnected_devices())
