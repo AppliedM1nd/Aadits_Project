@@ -1,7 +1,7 @@
 class Node:
-    def __init__(self, name, type):
+    def __init__(self, name):
         self.name = name
-        self.type = type
+        self.type = 'Node'
         self.connections = []
 
     def add_connection(self, node_name, distance):
@@ -24,6 +24,29 @@ class Node:
             if connection[0] == node_name:
                 self.connections.remove(connection)
 
+class Router(Node):
+    def __init__(self, name):
+        super().__init__(name)
+        self.connections = []
+        self.type = 'Router'
+        # needs to have: - packet rerouting, data security system
+        # could have a system where data packets travel in one of the three most optimal directions to simulate data traffic in
+        # the routers are the only components then that pick the optimal path for the data packets
+
+    def reroute_packets(self):
+        pass
+
+class Server(Node):
+    def __init__(self, name):
+        super().__init__(name)
+        self.connections = []
+        self.type = 'Server'
+
+        # could have subclasses of server for different types: web server, file server etc.
+
+    def get_data(self):
+        pass
+
 
 
 nodes = {}
@@ -35,7 +58,11 @@ def add_node(type):
     name_number = counters[type]
     name = type[0] + str(name_number)
     counters[type] += 1
-    node = Node(name, type)
+    if type == 'Router':
+        nodes[name] = Router(name)
+    elif type == 'Server':
+        nodes[name] = Node(name)
+    node = Node(name)
     nodes[name] = node
 
 
