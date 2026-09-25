@@ -1,8 +1,13 @@
 class Node:
-    def __init__(self, name):
+    def __init__(self, name, network_name):
         self.name = name
+        self.network_name = network_name
         self.type = 'Node'
         self.connections = []
+        self.data_received = {}
+        # data received could be stored in an array of data items or a dictionary with each key being
+        # the node the data is from and the values being arrays storing an array of each data item
+        # from that specific node
 
     def add_connection(self, node_name, distance):
         self.connections.append((node_name, distance))
@@ -25,45 +30,85 @@ class Node:
                 self.connections.remove(connection)
 
 class Router(Node):
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, name, network_name):
+        super().__init__(name, network_name)
         self.connections = []
         self.type = 'Router'
         # needs to have: - packet rerouting, data security system
         # could have a system where data packets travel in one of the three most optimal directions to simulate data traffic in
         # the routers are the only components then that pick the optimal path for the data packets
 
-    def reroute_packets(self):
-        pass
+    def reroute_packets(self, destination_node):
+        self.remove_connection(destination_node.name)
+        # find_shortest_path(self.name, destination_node.name)
+
+
 
 class Server(Node):
-    def __init__(self, name):
+    def __init__(self, name, network_name):
         super().__init__(name)
         self.connections = []
         self.type = 'Server'
+        self.data = input('Please enter the data you want stored on the server: ')
 
         # could have subclasses of server for different types: web server, file server etc.
 
     def get_data(self):
+        return self.data
+
+
+class Modem(Node):
+    def __init__(self, name,network_name, speed):
+        super().__init__(name, network_name)
+        self.connections = []
+        self.type = 'Modem'
+        self.speed = speed
+
+
+class Switch(Node):
+    def __init__(self, network_name, name):
+        super().__init__(name, network_name)
+        self.connections = []
+        self.type = 'Switch'
+
+    def send_data(self, incoming_node, destination_node): #only to right destination
+        for node in self.connections:
+            if node[0] == destination_node:
+
+
+
+
+class Hub(Node):
+    def __init__(self, network_name, name):
+        super().__init__(name, network_name)
+        self.connections = []
+        self.type = 'Hub'
+
+    def send_data(self, incoming_node, destination_node): #to all nodes
         pass
+        for node in self.connections:
+            nodes[node[0]].data_received.index()
+            nodes[node[0]].data_received[incoming_node].append('Test Data')
 
 
 
 nodes = {}
 
-counters = {'Router': 1, 'Server': 1}
+counters = {'Router': 1, 'Server': 1, 'Modem': 1}
 
 
 def add_node(type):
     name_number = counters[type]
     name = type[0] + str(name_number)
     counters[type] += 1
+    network_name = input('Please enter the name of the network this node will belong to')
     if type == 'Router':
-        nodes[name] = Router(name)
+        nodes[name] = Router(name, network_name)
     elif type == 'Server':
-        nodes[name] = Node(name)
-    node = Node(name)
-    nodes[name] = node
+        nodes[name] = Server(name, network_name)
+    elif type == 'Modem':
+        speed = input('Please enter a speed for the modem: ')
+        nodes[name] = Modem(name, network_name, speed)
 
 
 def check_devices_connected():
@@ -135,7 +180,8 @@ def min_spanning_tree(nodes):
         connection_node1, connection_node2, length = all_connections[index]
         nodes[connection_node1].add_connection(connection_node2, length)
 
-
+def find_shortest_path(incoming_node, destination_node):
+    pass
 
 add_node('Router')
 add_node('Router')
