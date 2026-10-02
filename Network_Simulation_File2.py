@@ -92,6 +92,8 @@ class Hub(Node):
 
 
 
+
+
 nodes = {}
 
 counters = {'Router': 1, 'Server': 1, 'Modem': 1}
@@ -127,6 +129,23 @@ def dfs(start_node, checked):
         if connection[0] not in checked:
             connected_node = nodes[connection[0]]
             dfs(connected_node, checked)
+    return checked
+
+def multiple_network_dfs(start_node_name, checked):
+    start_node = nodes[start_node_name]
+    nodes_in_same_network = [(node_name, node) for node_name, node in nodes.items() if node.network_name == start_node.network_name]
+    checked = check_same_type_devices_connected_dfs(start_node_name, checked)
+    if len(checked) == len(nodes):
+        return True
+    else:
+        return False
+
+def check_same_type_devices_connected_dfs(start_node_name, checked):
+    checked.append(start_node_name)
+    start_node = nodes[start_node_name]
+    for connection in start_node.connections:
+        if connection[0] not in checked and nodes[connection[0]].network_name == start_node.network_name:
+            check_same_type_devices_connected_dfs(nodes[connection[0]], checked)
     return checked
 
 
