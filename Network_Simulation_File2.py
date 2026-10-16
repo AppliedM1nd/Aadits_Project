@@ -46,6 +46,13 @@ class Router(Node):
 
 class Server(Node):
     def __init__(self, name, network_name):
+        """
+
+        Parameters
+        ----------
+        name
+        network_name
+        """
         super().__init__(name)
         self.connections = []
         self.type = 'Server'
@@ -74,7 +81,7 @@ class Switch(Node):
     def send_data(self, incoming_node, destination_node): #only to right destination
         for node in self.connections:
             if node[0] == destination_node:
-
+                pass
 
 
 
@@ -114,6 +121,12 @@ def add_node(type):
 
 
 def check_devices_connected():
+    """
+
+    Returns
+    -------
+    Whether or not the devices are connected
+    """
     start_node = next(iter(nodes.values()))
     checked = []
     checked = dfs(start_node, checked)
@@ -230,3 +243,6 @@ print(check_devices_connected())
 S2.add_connection('R2', 8)
 print(check_devices_connected())
 print(find_disconnected_devices())
+
+if __name__ == "__main__":
+    pass

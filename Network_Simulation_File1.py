@@ -24,8 +24,6 @@ class Node:
             if connection[0] == node_name:
                 self.connections.remove(connection)
 
-
-
 nodes = {}
 
 counters = {'Router': 1, 'Server': 1}
