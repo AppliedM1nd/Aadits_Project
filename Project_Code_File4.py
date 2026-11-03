@@ -265,15 +265,47 @@ def send_packet(source, destination, data):
     distances, previous_nodes = dijkstra(source, nodes)
     if distances[destination] == 999999999999999:
         return f'No route between the nodes {source} and {destination} exists to send the data through'
-   # else:
+    else:
+        current = destination
         send_route = []
+        while current != source:
+            next_node = previous_nodes[current]
+            send_route.append(current)
+            current = next_node
+    send_route = send_route[::-1]
+    data = 'temporary text'
+    new_packet = Packet(source, destination, data)
+    
+    nodes[source].receive_packet(new_packet, '')
+    
+            
         #while current !=
           #  - start at destination and use previous nodes to construct path until source 
             #-create packet object
            #      store route in send_packet()
            # - call receive_packet on source node
 
+def send_packet(source, destination, data):
+    distances, previous_nodes = dijkstra(source, nodes)
 
+    if distances[destination] == 999999999999999:
+        return f'No route between the nodes {source} and {destination} exists to send the data through'
+
+    # Reconstruct the shortest route
+    current = destination
+    send_route = []
+
+    while current != source:
+        send_route.append(current)
+        current = previous_nodes[current]
+
+    send_route.append(source)
+    send_route.reverse() # Create the packet
+    new_packet = Packet(source, destination, data) # Store the route in the packet
+    new_packet.route = send_route # Send the packet from the source
+    nodes[source].receive_packet(new_packet, None)
+
+    return new_packet
 
 
 
