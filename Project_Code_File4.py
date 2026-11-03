@@ -30,10 +30,13 @@ class Node:
                 self.connections.remove(connection)
 
     def receive_packet(self, packet, incoming_node):
+        packet.path.append(self.name)
         if packet.destination == self.name:
             packet.received_packet()
         else:
-            self.forward_packet(packet)
+            current_index = packet.route.index(self.name)
+            next_node = packet.route[current_index + 1]
+            nodes[next_node].receive_packet(packet, self.name)
 
     def forward_packet(self, packet):
         pass
@@ -46,7 +49,8 @@ class Packet:
         self.destination = destination
         self.source_mac = nodes[source].mac_address
         self.data = data
-        self.connections = []
+        self.route = []
+        self.path = []
         self.received = False
 
     def received_packet(self):
@@ -104,16 +108,17 @@ class Switch(Node):
         self.mac_routing_table = {}  # node name followed by MAC address
 
     def receive_packet(self, packet, incoming_node): # uses its MAC address table to route data packets and if destination not in table, send to all neighbours
-        self.mac_routing_table[packet.source_mac] = incoming_node
-
-        if nodes[packet.destination].mac_address in self.mac_routing_table.keys():
-            next_node = self.mac_routing_table[nodes[packet.destination].mac_address]
-            nodes[next_node].receive_packet(packet, self.name)
-
-        else:
-            for neighbour in [connection[0] for connection in self.connections]:
-                if neighbour != incoming_node:
-                    nodes[neighbour].receive_packet(packet, self.name)
+        super().receive_packet(packet, incoming_node)
+        # self.mac_routing_table[packet.source_mac] = incoming_node
+        #
+        # if nodes[packet.destination].mac_address in self.mac_routing_table.keys():
+        #     next_node = self.mac_routing_table[nodes[packet.destination].mac_address]
+        #     nodes[next_node].receive_packet(packet, self.name)
+        #
+        # else:
+        #     for neighbour in [connection[0] for connection in self.connections]:
+        #         if neighbour != incoming_node:
+        #             nodes[neighbour].receive_packet(packet, self.name)
 
 
 class Hub(Node):
@@ -254,8 +259,19 @@ def dijkstra(start_node, nodes):
                     distances_dict[neighbour] = distance + current_distance
                     previous_nodes[neighbour] = current_node
                     heapq.heappush(priority_queue, (distance + current_distance, neighbour))
-    return distances_dict
+    return distances_dict, previous_nodes
 
+def send_packet(source, destination, data):
+    distances, previous_nodes = dijkstra(source, nodes)
+    if distances[destination] == 999999999999999:
+        return f'No route between the nodes {source} and {destination} exists to send the data through'
+   # else:
+        send_route = []
+        #while current !=
+          #  - start at destination and use previous nodes to construct path until source 
+            #-create packet object
+           #      store route in send_packet()
+           # - call receive_packet on source node
 
 
 
