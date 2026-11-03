@@ -5,8 +5,9 @@ root = tk.Tk()
 root.title("Network Simulation")
 root.geometry("1000x800")
 canvas = tk.Canvas(root, bg="white")
-canvas.pack() # positions canvas in window
+canvas.pack(fill="both", expand=True) # positions canvas in window and allows it to fill all available space in x and y and to take up extra space in window
 node_position = {}
+selected_node = None
 
 
 def generate_positions():
@@ -20,6 +21,7 @@ def generate_positions():
         node_position[node] = (x, y)
 
 def draw_network():
+    canvas.delete("all")
     for node_name, node in network.nodes.items():
         for neighbour, distance in node.connections:
             if node_name < neighbour:
@@ -34,9 +36,33 @@ def draw_network():
         canvas.create_oval(x-25, y-25, x+25, y+25, fill="red")
         canvas.create_text(x, y, text=node_name)  #anchor=tk.W
 
+def select_node(event):
+    global selected_node
+    for node_name, (x,y) in node_position.items():
+        distance = ((event.x - x)**2 + (event.y - y)**2)**(0.5)
+        if distance <= 25:
+            selected_node = node_name
+
+def move_node(event):
+    if selected_node is not None:
+        node_position[selected_node] = event.x, event.y
+        draw_network()
+
+def release_node(event):
+    global selected_node
+    if selected_node is not None:
+        selected_node = None
+
+
+
+
 network.create_test_network()
 generate_positions()
 draw_network()
+
+canvas.bind("<Button-1>", select_node)
+canvas.bind("<B1-Motion>", move_node)
+canvas.bind("<ButtonRelease-1>", release_node)
 
 root.mainloop()
 
