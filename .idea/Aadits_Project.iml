@@ -9,13 +9,11 @@
       <excludeFolder url="file://$MODULE_DIR$/.venv_old/.venv1" />
       <excludeFolder url="file://$MODULE_DIR$/.venv_old2" />
     </content>
-    <orderEntry type="jdk" jdkName="~\OneDrive - Highgate School\A LEVEL COMPUTING\Aadit's Project\.venv" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="~\OneDrive - Highgate School\Project_V2\.venv" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="format" value="NUMPY" />
     <option name="myDocStringFormat" value="NumPy" />
   </component>
-  <component name="ReSTService" />
-  <component name="TestRunnerService" />
 </module>
