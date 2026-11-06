@@ -53,8 +53,8 @@ def release_node(event):
     if selected_node is not None:
         selected_node = None
 
-
-
+def display_packets(event):
+    global selected_node
 
 network.create_test_network()
 generate_positions()
@@ -64,6 +64,11 @@ canvas.bind("<Button-1>", select_node)
 canvas.bind("<B1-Motion>", move_node)
 canvas.bind("<ButtonRelease-1>", release_node)
 
+sidebar = tk.Frame(root, bg="blue", width=100, height=800)
+sidebar.pack(fill="both", expand=True, side = "left")
+sidebar_label = tk.Label(sidebar, text="Menu")
+sidebar_label.pack(side="left")
+#canvas.create_window(150, 100, window=sidebar)
 root.mainloop()
 
 
